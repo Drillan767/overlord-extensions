@@ -1,0 +1,1 @@
+"use strict";var e=({filter:e})=>{e("Articles.items.create",(async e=>(e.hasOwnProperty("title")&&(e.slug=await t(e.title)),e))),e("Articles.items.update",(async e=>(e.hasOwnProperty("title")&&(e.slug=await t(e.title)),e)))};const t=e=>e.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLocaleLowerCase().trim().replace(/[^a-z0-9 ]/g,"").replace(/\s+/g,"-");module.exports=e;
