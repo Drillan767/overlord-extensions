@@ -1,1 +1,1 @@
-"use strict";var e=e=>{e.get("/articles",((e,l)=>l.send("Hello, World! -- articles"))),e.get("projects",((e,l)=>l.send("Hello, World! -- projects")))};module.exports=e;
+"use strict";var e=(e,{services:t,exceptions:s})=>{const{ItemsService:c}=t,{ServiceUnavailableException:i}=s;e.get("/articles",((e,t)=>{new c("Tag",{schema:e.schema,accountability:e.accountability}).readByQuery({sort:"title",fields:["title","description"]}).then((e=>t.json(e))).catch((e=>{throw new i(e.message)}))})),e.get("/projects",((e,t)=>{t.json({message:"henlo fren"})}))};module.exports=e;
