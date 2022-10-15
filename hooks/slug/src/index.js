@@ -21,6 +21,8 @@ const handleSlug = async (item) => {
 			h.setAttribute('id', slugify(h.innerHTML))
 			h.innerHTML = 'GUZEF WAS HERE'
 		})
+
+		item.body = document.toString()
 	}
 
 	return item
