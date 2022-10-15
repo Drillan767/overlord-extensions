@@ -16,12 +16,7 @@ const handleSlug = async (item) => {
 	if (item.hasOwnProperty('body')) {
 		const document = parse(item.body)
 		const headings = document.querySelectorAll('h2, h3, h4, h5, h6')
-
-		headings.forEach((h) => {
-			h.setAttribute('id', slugify(h.innerHTML))
-			h.innerHTML = 'GUZEF WAS HERE'
-		})
-
+		headings.forEach((h) => h.setAttribute('id', slugify(h.innerHTML)))
 		item.body = document.toString()
 	}
 
