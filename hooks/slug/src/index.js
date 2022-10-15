@@ -1,4 +1,5 @@
 import { defineHook } from '@directus/extensions-sdk';
+import { parse } from 'node-html-parser';
 
 export default defineHook(({ filter }) => {
 	filter('Articles.items.create', async (item) => handleSlug(item));
@@ -13,7 +14,10 @@ const handleSlug = async (item) => {
 	}
 
 	if (item.hasOwnProperty('body')) {
-		console.log(item.body)
+		const document = parse(item.body)
+		const headings = document.querySelector('h2, h3, h4, h5, h6')
+
+		console.log(headings)
 	}
 
 	return item
