@@ -11,6 +11,11 @@ const handleSlug = async (item) => {
 	if (item.hasOwnProperty('title')) {
 		item.slug = await slugify(item.title)
 	}
+
+	if (item.hasOwnProperty('body')) {
+		console.log(item.body)
+	}
+
 	return item
 }
 
