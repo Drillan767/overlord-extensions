@@ -14,7 +14,9 @@ const handle = async (item) => {
 	}
 
 	if (item.hasOwnProperty('body')) {
-		item.toc = handleToC(item.body)
+		const { toc, body } = handleToC(item.body)
+		item.toc = toc
+		item.body = body
 	}
 
 	return item
@@ -32,10 +34,10 @@ const slugify = (string) => {
 
 const link = (header) => `<li><a href="#"${header.id}">${header.title}</a></li>`
 
-const handleToC = () => {
+const handleToC = (body) => {
 	let headers = []
 
-	const document = parse(item.body)
+	const document = parse(body)
 	const headings = document.querySelectorAll('h2, h3, h4, h5, h6')
 	headings.forEach((h) => {
 		h.setAttribute('id', slugify(h.innerHTML))
@@ -45,8 +47,6 @@ const handleToC = () => {
 			title: h.innerText
 		})
 	})
-
-	item.body = document.toString()
 
 	let toc = '<ul>'
 
@@ -67,5 +67,8 @@ const handleToC = () => {
 	  
 	toc += '</ul>'
 
-	return toc
+	return {
+		toc: toc,
+		body: document.toString()
+	}
 }
