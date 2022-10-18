@@ -18,7 +18,19 @@ const handle = async (item: Content) => {
 	console.log(item)
 
 	if (item.hasOwnProperty('title')) {
+		item.title = slugify(item.title)
 		console.log('item has a title')
 	}
+
 	return item
+}
+
+const slugify = (string: string) => {
+	return string
+		.normalize('NFD')
+		.replace(/[\u0300-\u036f]/g, '')
+		.toLocaleLowerCase()
+		.trim()
+		.replace(/[^a-z0-9 ]/g, '')
+		.replace(/\s+/g, '-')
 }
