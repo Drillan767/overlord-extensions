@@ -14,7 +14,9 @@ const handle = async (item) => {
 	}
 
 	if (item.hasOwnProperty('body')) {
+		console.log('Item has body omg')
 		const { toc, body } = handleToC(item.body)
+		console.log(toc)
 		item.toc = toc
 		item.body = body
 	}
