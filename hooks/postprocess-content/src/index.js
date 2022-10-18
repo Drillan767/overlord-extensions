@@ -13,15 +13,15 @@ const handle = async (item) => {
 		item.slug = await slugify(item.title)
 	}
 
-	console.log({item})
+	console.log(item)
 
-	if (item.hasOwnProperty('body')) {
-		console.log('Item has body omg')
-		const { toc, body } = handleToC(item.body)
-		console.log(toc)
-		item.toc = toc
-		item.body = body
-	}
+	// if (item.hasOwnProperty('body')) {
+	// 	console.log('Item has body omg')
+	// 	const { toc, body } = handleToC(item.body)
+	// 	console.log(toc)
+	// 	item.toc = toc
+	// 	item.body = body
+	// }
 
 	return item
 }
