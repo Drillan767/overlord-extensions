@@ -1,0 +1,1 @@
+"use strict";var e=({filter:e})=>{e("Articles.items.create",(async e=>t(e))),e("Articles.items.update",(async e=>t(e))),e("Project.items.create",(async e=>t(e))),e("Project.items.update",(async e=>t(e)))};const t=async e=>(console.log(e),e.hasOwnProperty("title")&&console.log("item has a title"),e);module.exports=e;
