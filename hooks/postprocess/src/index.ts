@@ -42,7 +42,7 @@ const slugify = (string: string) => {
 		.replace(/\s+/g, '-')
 }
 
-const link = (header) => `<li><a href="#"${header.id}">${header.title}</a></li>`
+const link = (header) => `<li><a href="#${header.id}">${header.title}</a></li>`
 
 const handleToC = (body: string) => {
 	let headers = []
