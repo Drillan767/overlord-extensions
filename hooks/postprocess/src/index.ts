@@ -9,6 +9,12 @@ type Content = {
 	slug: string
 }
 
+type Header = {
+	id: string,
+	title: string
+	level: Number,
+}
+
 export default defineHook(({ filter }) => {
 	filter('Articles.items.create', async (item) => handle(item));
 	filter('Articles.items.update', async (item) => handle(item));
@@ -42,10 +48,10 @@ const slugify = (string: string) => {
 		.replace(/\s+/g, '-')
 }
 
-const link = (header) => `<li><a href="#${header.id}">${header.title}</a></li>`
+const link = (header: Header) => `<li><a href="#${header.id}">${header.title}</a></li>`
 
 const handleToC = (body: string) => {
-	let headers = []
+	let headers = [] as Array<Header>
 
 	const document = parse(body)
 	const headings = document.querySelectorAll('h2, h3, h4, h5, h6')
