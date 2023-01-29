@@ -1,9 +1,7 @@
 import { defineHook } from '@directus/extensions-sdk';
-import { parse } from 'node-html-parser';
-import { it } from 'node:test';
 
 type Content = {
-	title: string,
+    title: string,
 	body: string,
 	toc: string,
 	slug: string
@@ -16,26 +14,19 @@ type Header = {
 }
 
 export default defineHook(({ filter }) => {
-	filter('Articles.items.create', async (item) => handle(item));
-	filter('Articles.items.update', async (item) => handle(item));
-	filter('Project.items.create', async (item) => handle(item))
-	filter('Project.items.update', async (item) => handle(item))
+    ['Articles', 'Project', 'Pages'].forEach((type) => {
+        filter(`${type}.items.create`, async (item) => handle(item))
+        filter(`${type}.items.update`, async (item) => handle(item))
+    })
 })
 
-const handle = async (item: Content) => {
-	console.log(item)
+const handle = (item: unknown) => {
+    const element = item as Content
+    if (element.hasOwnProperty('title')) {
+        element.slug = slugify(element.title)
+    }
 
-	if (item.hasOwnProperty('title')) {
-		item.slug = slugify(item.title)
-	}
-
-	if (item.hasOwnProperty('body')) {
-		const { toc, body} = handleToC(item.body)
-		item.body = body
-		item.toc = toc
-	}
-
-	return item
+    return element
 }
 
 const slugify = (string: string) => {
@@ -46,45 +37,4 @@ const slugify = (string: string) => {
 		.trim()
 		.replace(/[^a-z0-9 ]/g, '')
 		.replace(/\s+/g, '-')
-}
-
-const link = (header: Header) => `<li><a href="#${header.id}">${header.title}</a></li>`
-
-const handleToC = (body: string) => {
-	let headers = [] as Array<Header>
-
-	const document = parse(body)
-	const headings = document.querySelectorAll('h2, h3, h4, h5, h6')
-	headings.forEach((h) => {
-		h.setAttribute('id', slugify(h.innerHTML))
-		headers.push({
-			id: h.getAttribute('id'),
-			level: parseInt(h.tagName.replace('H', '')),
-			title: h.innerText
-		})
-	})
-
-	let toc = '<ul>'
-
-	headers.forEach((header, index) => {
-		if (index) {
-			var prev = headers[index - 1]
-		}
-		if (!index || prev.level === header.level) {
-			toc += link(header)
-		}
-		else if (prev.level > header.level) {
-			toc += '</ul>' + link(header)
-		}
-		else if (prev.level < header.level) {
-			toc += '<ul>' + link(header)
-		}
-	})
-	  
-	toc += '</ul>'
-
-	return {
-		toc: toc,
-		body: document.toString()
-	}
 }
